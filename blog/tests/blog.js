@@ -1,9 +1,15 @@
-import { Provider, setProvider, workspace } from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
 import { equal } from "assert";
+import  createBlog  from "./functions/createBlog.js";
+import createUser  from "./functions/createUser.js";
+import createPost  from "./functions/createPost.js";
+import { describe, it } from "mocha";
 
-describe("blog tests", () => {
-  const provider = Provider.env();
-  setProvider(provider);
+
+describe("blog-sol", () => {
+  const provider = anchor.Provider.env();
+  console.log("Provider: ", provider.wallet.publicKey.toString());
+  anchor.setProvider(provider);
   const program = workspace.BlogSol;
 
   it("initialize blog account", async () => {
@@ -12,6 +18,7 @@ describe("blog tests", () => {
       provider
     );
 
+    // console.log("Blog account key: ", blogAccount.publicKey.toString());
     equal(
       blog.currentPostKey.toString(),
       genesisPostAccount.publicKey.toString()
@@ -22,6 +29,8 @@ describe("blog tests", () => {
       provider.wallet.publicKey.toString()
     );
   });
+
+  // return;
 
   it("signup a new user", async () => {
     const { user, name, avatar } = await createUser(program, provider);
@@ -76,6 +85,8 @@ describe("blog tests", () => {
       },
     });
 
+    // console.log(tx);
+
     const post = await program.account.postState.fetch(postAccount.publicKey);
 
     equal(post.title, updateTitle);
@@ -86,6 +97,8 @@ describe("blog tests", () => {
       post.authority.toString(),
       provider.wallet.publicKey.toString()
     );
+
+    // await new Promise((r) => setTimeout(r, 40000));
   });
 
   it("deletes the post", async () => {
@@ -133,5 +146,7 @@ describe("blog tests", () => {
       upPost3.authority.toString(),
       provider.wallet.publicKey.toString()
     );
+
+    // await new Promise((r) => setTimeout(r, 40000));
   });
 });

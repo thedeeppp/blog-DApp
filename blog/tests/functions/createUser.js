@@ -1,7 +1,7 @@
-import { web3 } from "@project-serum/anchor";
+import { web3 } from "@coral-xyz/anchor";
 const { SystemProgram } = web3;
 
-async function createUser(program, provider) {
+export default async function createUser(program, provider) {
   const userAccount = web3.Keypair.generate();
 
   const name = "user name";
@@ -20,6 +20,3 @@ async function createUser(program, provider) {
   return { user, userAccount, name, avatar };
 }
 
-export default {
-  createUser,
-};

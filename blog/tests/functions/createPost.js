@@ -1,7 +1,7 @@
-import { web3 } from "@project-serum/anchor";
+import { web3 } from "@coral-xyz/anchor";
 const { SystemProgram } = web3;
 
-async function createPost(program, provider, blogAccount, userAccount) {
+export default async function createPost(program, provider, blogAccount, userAccount) {
   const postAccount = web3.Keypair.generate();
   const title = "post title";
   const content = "post content";
@@ -22,6 +22,3 @@ async function createPost(program, provider, blogAccount, userAccount) {
   return { post, postAccount, title, content };
 }
 
-export default {
-  createPost,
-};

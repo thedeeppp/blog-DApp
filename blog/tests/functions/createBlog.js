@@ -1,9 +1,9 @@
-import { web3 } from "@project-serum/anchor";
+import { web3 } from "@coral-xyz/anchor";
 
 const { SystemProgram } = web3;
 
 // we will discus the parameters when we use it
-async function createBlog(program, provider) {
+export default async function createBlog(program, provider) {
   const blogAccount = web3.Keypair.generate(); // creates random keypair
   const genesisPostAccount = web3.Keypair.generate(); // creates random keypair
 
@@ -22,6 +22,3 @@ async function createBlog(program, provider) {
   return { blog, blogAccount, genesisPostAccount };
 }
 
-export default {
-  createBlog,
-};
